@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskTools Hub | Best Free & Paid Tools for Every Task</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary: 139, 92, 246;
+            --primary-dark: 124, 58, 237;
+            --secondary: 86, 61, 248;
+            --accent: 251, 146, 60;
+            --dark: 17, 24, 39;
+            --light: 248, 250, 252;
+            --gray: 156, 163, 175;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: rgb(var(--light));
+            color: rgb(var(--dark));
+            line-height: 1.6;
+        }
+
+        .gradient-bg {
+            background: linear-gradient(135deg, rgba(var(--primary), 0.1) 0%, rgba(var(--secondary), 0.05) 100%);
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.7);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            border-radius: 1rem;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.03), 0 2px 4px -1px rgba(0, 0, 0, 0.02);
+        }
+
+        .hover-glow {
+            transition: all 0.3s ease;
+        }
+
+        .hover-glow:hover {
+            box-shadow: 0 10px 15px -3px rgba(var(--primary), 0.2), 0 4px 6px -2px rgba(var(--primary), 0.1);
+            transform: translateY(-2px);
+        }
+
+        .tag {
+            display: inline-block;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+
+        .tag-free {
+            background-color: rgba(var(--accent), 0.1);
+            color: rgb(var(--accent));
+            border: 1px solid rgba(var(--accent), 0.2);
+        }
+
+        .tag-paid {
+            background-color: rgba(var(--primary), 0.1);
+            color: rgb(var(--primary));
+            border: 1px solid rgba(var(--primary), 0.2);
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-box input {
+            padding-left: 2.5rem;
+        }
+
+        .search-box i {
+            position: absolute;
+            left: 0.75rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: rgb(var(--gray));
+        }
+
+        .category-tabs {
+            display: flex;
+            overflow-x: auto;
+            scrollbar-width: thin;
+            scrollbar-color: rgba(var(--gray), 0.2) transparent;
+            padding-bottom: 0.5rem;
+            margin-bottom: -0.5rem;
+        }
+
+        .category-tabs::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .category-tabs::-webkit-scrollbar-thumb {
+            background-color: rgba(var(--gray), 0.2);
+            border-radius: 9999px;
+        }
+
+        .category-tabs::-webkit-scrollbar-track {
+            background-color: transparent;
+        }
+
+        .floating-toolbar {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            z-index: 50;
+        }
+
+        .tooltip {
+            position: relative;
+            display: inline-block;
+        }
+
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 120px;
+            background-color: rgb(var(--dark));
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 0.5rem;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%;
+            left: 50%;
+            margin-left: -60px;
+            opacity: 0;
+            transition: opacity 0.3s;
+            font-size: 0.875rem;
+        }
+
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        @media (max-width: 768px) {
+            .floating-toolbar {
+                bottom: 1.5rem;
+                right: 1.5rem;
+            }
+
+            .category-tabs {
+                justify-content: flex-start;
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .fade-in {
+            animation: fadeIn 0.3s ease-out forwards;
+        }
+
+        .delay-100 { animation-delay: 0.1s; }
+        .delay-200 { animation-delay: 0.2s; }
+        .delay-300 { animation-delay: 0.3s; }
+    </style>
+</head>
+<body class="gradient-bg">
+    <!-- Header -->
+    <header class="sticky top-0 z-40 w-full backdrop-blur flex-none transition-colors duration-500 border-b border-gray-200/80 bg-white/95 supports-backdrop-blur:bg-white/60">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="py-4 flex items-center justify-between">
+                <div class="flex items-center space-x-3">
+                    <div class="h-10 w-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white font-bold">
+                        TT
+                    </div>
+                    <h1 class="text-xl font-bold text-gray-900">TaskTools Hub</h1>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button id="theme-toggle" class="p-2 rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors">
+                        <i class="fas fa-moon"></i>
+                    </button>
+                    <button class="p-2 rounded-full text-gray-500 hover:bg-gray-100 hover:text-gray-700 transition-colors">
+                        <i class="fas fa-bell"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="py-12 sm:py-16 lg:py-20">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h1 class="text-4xl sm:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 fade-in">
+                Discover the <span class="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-600">Perfect Tools</span> for Any Task
+            </h1>
+            <p class="text-xl text-gray-600 max-w-3xl mx-auto mb-8 fade-in delay-100">
+                Browse our curated collection of free and paid tools to boost your productivity, creativity, and efficiency.
+            </p>
+            <div class="max-w-xl mx-auto fade-in delay-200">
+                <div class="search-box">
+                    <i class="fas fa-search"></i>
+                    <input type="text" id="search-input" placeholder="Search tools by name or task (e.g., 'video editing', 'AI writing')..."
+                           class="w-full px-4 py-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-purple-500 focus:border-purple-500 transition-all">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Category Tabs -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-8">
+        <div class="category-tabs space-x-2 pb-4">
+            <button data-category="all" class="px-4 py-2 rounded-full text-sm font-medium bg-purple-100 text-purple-800 hover:bg-purple-200 transition-colors whitespace-nowrap fade-in">
+                All Categories
+            </button>
+            <button data-category="productivity" class="px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors whitespace-nowrap fade-in delay-100">
+                Productivity
+            </button>
+            <button data-category="design" class="px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors whitespace-nowrap fade-in delay-150">
+                Design
+            </button>
+            <button data-category="development" class="px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors whitespace-nowrap fade-in delay-200">
+                Development
+            </button>
+            <button data-category="marketing" class="px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors whitespace-nowrap fade-in delay-250">
+                Marketing
+            </button>
+            <button data-category="ai" class="px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors whitespace-nowrap fade-in delay-300">
+                AI Tools
+            </button>
+            <button data-category="video" class="px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors whitespace-nowrap fade-in delay-350">
+                Video
+            </button>
+            <button data-category="business" class="px-4 py-2 rounded-full text-sm font-medium text-gray-600 hover:bg-gray-100 transition-colors whitespace-nowrap fade-in delay-400">
+                Business
+            </button>
+        </div>
+    </div>
+
+    <!-- Tools Grid -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-20">
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6" id="tools-grid">
+            <!-- Tools will be populated by JavaScript -->
+        </div>
+
+        <!-- Loading state -->
+        <div id="loading" class="col-span-full flex justify-center items-center py-12">
+            <div class="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-purple-500"></div>
+        </div>
+
+        <!-- Empty state -->
+        <div id="empty-state" class="col-span-full text-center py-12 hidden">
+            <div class="mb-4">
+                <i class="fas fa-magnifying-glass text-4xl text-gray-300"></i>
+            </div>
+            <h3 class="text-xl font-semibold text-gray-900 mb-2">No tools found</h3>
+            <p class="text-gray-500">Try adjusting your search or filter to find what you're looking for</p>
+        </div>
+    </main>
+
+    <!-- Floating Toolbar -->
+    <div class="floating-toolbar flex flex-col space-y-3">
+        <div class="tooltip">
+            <button id="filter-free" class="p-3 rounded-full bg-white shadow-lg hover:shadow-xl transition-shadow text-purple-600 hover:bg-purple-50">
+                <i class="fas fa-tags"></i>
+            </button>
+            <span class="tooltiptext">Free only</span>
+        </div>
+        <div class="tooltip">
+            <button id="filter-paid" class="p-3 rounded-full bg-white shadow-lg hover:shadow-xl transition-shadow text-indigo-600 hover:bg-indigo-50">
+                <i class="fas fa-credit-card"></i>
+            </button>
+            <span class="tooltiptext">Paid only</span>
+        </div>
+        <div class="tooltip">
+            <button id="sort-popular" class="p-3 rounded-full bg-white shadow-lg hover:shadow-xl transition-shadow text-yellow-500 hover:bg-yellow-50">
+                <i class="fas fa-fire"></i>
+            </button>
+            <span class="tooltiptext">Most popular</span>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="bg-gray-50 border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <div class="flex items-center space-x-3 mb-4">
+                        <div class="h-10 w-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white font-bold">
+                            TT
+                        </div>
+                        <h3 class="text-xl font-bold text-gray-900">TaskTools Hub</h3>
+                    </div>
+                    <p class="text-gray-600 mb-4">
+                        Your ultimate directory for discovering the best free and paid tools to accomplish any task efficiently.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-purple-600 transition-colors">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-purple-600 transition-colors">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-purple-600 transition-colors">
+                            <i class="fab fa-github"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-purple-600 transition-colors">
+                            <i class="fab fa-youtube"></i>
+                        </a>
+                    </div>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Categories</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">Productivity</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">Design Tools</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">Development</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">Marketing</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">AI Tools</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">Submit a Tool</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">Blog</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">Comparisons</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">Deals</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">Newsletter</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h4 class="text-sm font-semibold text-gray-500 uppercase tracking-wider mb-4">Legal</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">Privacy Policy</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">Terms of Service</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">Cookie Policy</a></li>
+                        <li><a href="#" class="text-gray-600 hover:text-purple-600 transition-colors">Affiliate Disclosure</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="border-t border-gray-200 mt-12 pt-8 text-center text-gray-500 text-sm">
+                <p>© 2023 TaskTools Hub. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Tool Modal -->
+    <div id="tool-modal" class="fixed inset-0 z-50 overflow-y-auto hidden" aria-labelledby="modal-title" role="dialog" aria-modal="true">
+        <div class="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+            <div class="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" aria-hidden="true"></div>
+            <span class="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">&#8203;</span>
+            <div class="inline-block align-bottom bg-white rounded-xl text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-2xl sm:w-full">
+                <div class="bg-white px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
+                    <div class="sm:flex sm:items-start">
+                        <div class="mx-auto flex-shrink-0 flex items-center justify-center h-16 w-16 rounded-full bg-gradient-to-br from-purple-100 to-indigo-100 sm:mx-0 sm:h-20 sm:w-20">
+                            <img id="modal-icon" src="" alt="Tool icon" class="h-10 w-10">
+                        </div>
+                        <div class="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left w-full">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <h3 class="text-2xl leading-6 font-bold text-gray-900" id="modal-title">
+                                        Tool Name
+                                    </h3>
+                                    <div class="mt-2 flex space-x-2" id="modal-tags">
+                                        <!-- Tags will be inserted here -->
+                                    </div>
+                                </div>
+                                <button id="close-modal" class="text-gray-400 hover:text-gray-500">
+                                    <i class="fas fa-times"></i>
+                                </button>
+                            </div>
+                            <div class="mt-4">
+                                <p class="text-gray-600" id="modal-description">
+                                    Tool description goes here. This will be more detailed than the card view and provide comprehensive information about what the tool does and its key features.
+                                </p>
+                            </div>
+                            <div class="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-4" id="modal-details">
+                                <!-- Details will be inserted here -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-gray-50 px-4 py-3 sm:px-6 sm:flex sm:flex-row-reverse">
+                    <button type="button" class="w-full inline-flex justify-center rounded-md border border-transparent shadow-sm px-4 py-2 bg-purple-600 text-base font-medium text-white hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-purple-500 sm:ml-3 sm:w-auto sm:text-sm">
+                        Visit Website
+                    </button>
+                    <button type="button" class="mt-3 w-full inline-flex justify-center rounded-md border border-gray-300 shadow-sm px-4 py-2 bg-white text-base font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 sm:mt-0 sm:ml-3 sm:w-auto sm:text-sm">
+                        Save for Later
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Tools database
+        const tools = [
+            {
+                id: 1,
+                name: "Notion",
+                description: "All-in-one workspace for notes, tasks, wikis, and databases. Perfect for personal and team productivity.",
+                category: ["productivity", "business"],
+                tags: ["free", "paid"],
+                freePlan: true,
+                price: "$10/month (Personal Pro)",
+                rating: 4.8,
+                reviews: 1250,
+                icon: "https://upload.wikimedia.org/wikipedia/commons/4/45/Notion_app_logo.png",
+                website: "https://www.notion.so/",
+                features: ["Custom databases", "Kanban boards", "Wiki documentation", "Team collaboration", "Mobile apps"],
+                bestFor: "Individuals and teams who want an all-in-one workspace for notes, tasks, and knowledge management."
+            },
+            {
+                id: 2,
+                name: "Canva",
+                description: "Graphic design platform for creating social media graphics, presentations, posters, and other visual content.",
+                category: ["design", "marketing"],
+                tags: ["free", "paid"],
+                freePlan: true,
+                price: "$12.99/month (Pro)",
+                rating: 4.7,
+                reviews: 2450,
+                icon: "https://about.canva.com/wp-content/uploads/sites/3/2015/01/canva_logo-1.png",
+                website: "https://www.canva.com/",
+                features: ["Drag-and-drop editor", "Templates library", "Photo editor", "Brand kit", "Collaboration"],
+                bestFor: "Non-designers who need to create professional graphics quickly and easily."
+            },
+            {
+                id: 3,
+                name: "Trello",
+                description: "Visual collaboration tool that creates a shared perspective for your team on any project.",
+                category: ["productivity", "business"],
+                tags: ["free", "paid"],
+                freePlan: true,
+                price: "$10/month (Standard)",
+                rating: 4.5,
+                reviews: 1800,
+                icon: "https://d2k1ftgv7pfexb.cloudfront.net/meta/p/res/images/trello-header-logos/762726f53d9b7b0fd355d03c19d85bfd/trello-logo-blue.svg",
+                website: "https://trello.com/",
+                features: ["Kanban boards", "Task cards", "Checklists", "Due dates", "Team collaboration"],
+                bestFor: "Teams and individuals who want a simple, visual way to manage projects and tasks."
+            },
+            {
+                id: 4,
+                name: "Figma",
+                description: "Collaborative interface design tool for creating, prototyping, and handing off designs.",
+                category: ["design", "development"],
+                tags: ["free", "paid"],
+                freePlan: true,
+                price: "$12/editor/month (Professional)",
+                rating: 4.9,
+                reviews: 3200,
+                icon: "https://upload.wikimedia.org/wikipedia/commons/3/33/Figma-logo.svg",
+                website: "https://www.figma.com/",
+                features: ["Vector networks", "Prototyping", "Design systems", "Real-time collaboration", "Developer handoff"],
+                bestFor: "Designers and teams who need a powerful, collaborative UI/UX design tool."
+            },
+            {
+                id: 5,
+                name: "Grammarly",
+                description: "AI-powered writing assistant that helps you write clear, mistake-free text that makes the right impression.",
+                category: ["productivity", "ai"],
+                tags: ["free", "paid"],
+                freePlan: true,
+                price: "$12/month (Premium)",
+                rating: 4.6,
+                reviews: 1980,
+                icon: "https://upload.wikimedia.org/wikipedia/commons/5/5f/Grammarly_logo.png",
+                website: "https://www.grammarly.com/",
+                features: ["Grammar checking", "Plagiarism detection", "Writing style suggestions", "Tone detection", "Browser extension"],
+                bestFor: "Anyone who wants to improve their writing, from students to professionals."
+            },
+            {
+                id: 6,
+                name: "Zoom",
+                description: "Video conferencing platform with HD video and audio, collaboration tools, and webinar capabilities.",
+                category: ["productivity", "business"],
+                tags: ["free", "paid"],
+                freePlan: true,
+                price: "$14.99/month (Pro)",
+                rating: 4.4,
+                reviews: 2750,
+                icon: "https://upload.wikimedia.org/wikipedia/commons/7/7e/Zoom_Communications_logo.svg",
+                website: "https://zoom.us/",
+                features: ["HD video/audio", "Screen sharing", "Breakout rooms", "Recording", "Webinars"],
+                bestFor: "Businesses and individuals who need reliable video conferencing and virtual meeting solutions."
+            },
+            {
+                id: 7,
+                name: "Adobe Photoshop",
+                description: "Industry-standard image editing software for graphic designers, photographers, and artists.",
+                category: ["design"],
+                tags: ["paid"],
+                freePlan: false,
+                price: "$20.99/month",
+                rating: 4.9,
+                reviews: 4500,
+                icon: "https://upload.wikimedia.org/wikipedia/commons/a/af/Adobe_Photoshop_CC_icon.svg",
+                website: "https://www.adobe.com/products/photoshop.html",
+                features: ["Layer-based editing", "Advanced retouching", "3D design", "Content-aware tools", "AI-powered features"],
+                bestFor: "Professional designers, photographers, and artists who need advanced image editing capabilities."
+            },
+            {
+                id: 8,
+                name: "Slack",
+                description: "Channel-based messaging platform that connects people to the information they need.",
+                category: ["productivity", "business"],
+                tags: ["free", "paid"],
+                freePlan: true,
+                price: "$7.25/month (Pro)",
+                rating: 4.7,
+                reviews: 3100,
+                icon: "https://upload.wikimedia.org/wikipedia/commons/b/b9/Slack_Technologies_Logo.svg",
+                website: "https://slack.com/",
+                features: ["Channels", "Direct messages", "File sharing", "App integrations", "Searchable history"],
+                bestFor: "Teams who need organized, searchable communication with integrations to other work tools."
+            },
+            {
+                id: 9,
+                name: "Ahrefs",
+                description: "All-in-one SEO toolset for backlink analysis, keyword research, and competitor analysis.",
+                category: ["marketing"],
+                tags: ["paid"],
+                freePlan: false,
+                price: "$99/month (Lite)",
+                rating: 4.8,
+                reviews: 1450,
+                icon: "https://ahrefs.com/blog/wp-content/uploads/2017/03/fb-ahrefs-logo-1.png",
+                website: "https://ahrefs.com/",
+                features: ["Backlink analysis", "Keyword explorer", "Site audit", "Rank tracking", "Content explorer"],
+                bestFor: "SEO professionals and marketers who need comprehensive SEO tools and data."
+            },
+            {
+                id: 10,
+                name: "VS Code",
+                description: "Lightweight but powerful source code editor with support for many programming languages.",
+                category: ["development"],
+                tags: ["free"],
+                freePlan: true,
+                price: "Free",
+                rating: 4.9,
+                reviews: 5200,
+                icon: "https://upload.wikimedia.org/wikipedia/commons/9/9a/Visual_Studio_Code_1.35_icon.svg",
+                website: "https://code.visualstudio.com/",
+                features: ["IntelliSense", "Debugging", "Extensions", "Git integration", "Customizable"],
+                bestFor: "Developers who want a lightweight, customizable code editor with powerful features."
+            },
+            {
+                id: 11,
+                name: "Jira",
+                description: "Project management tool for agile teams to plan, track, and release software.",
+                category: ["productivity", "development"],
+                tags: ["paid"],
+                freePlan: false,
+                price: "$7.75/user/month (Standard)",
+                rating: 4.3,
+                reviews: 1890,
+                icon: "https://wac-cdn.atlassian.com/dam/jcr:61b35da5-55d5-45b2-bef8-68d63b72d49c/Jira%20Software-blue.svg",
+                website: "https://www.atlassian.com/software/jira",
+                features: ["Scrum/Kanban boards", "Roadmaps", "Agile reporting", "Custom workflows", "Integrations"],
+                bestFor: "Software development teams practicing agile methodologies who need robust project tracking."
+            },
+            {
+                id: 12,
+                name: "Mailchimp",
+                description: "All-in-one marketing platform for growing businesses, with email marketing at its core.",
+                category: ["marketing", "business"],
+                tags: ["free", "paid"],
+                freePlan: true,
+                price: "$10/month (Essentials)",
+                rating: 4.4,
+                reviews: 2100,
+                icon: "https://eep.io/images/yzco4XimxOQaG3ZroZG7_jxVQsBq7C0Q5VHibBxgq2E/MC_Freddie_Primary_Black.png",
+                website: "https://mailchimp.com/",
+                features: ["Email campaigns", "Marketing automation", "Landing pages", "Audience segmentation", "Analytics"],
+                bestFor: "Businesses of all sizes who need email marketing and marketing automation tools."
+            },
+            {
+                id: 13,
+                name: "Midjourney",
+                description: "AI program that creates images from textual descriptions, similar to DALL-E and Stable Diffusion.",
+                category: ["design", "ai"],
+                tags: ["paid"],
+                freePlan: false,
+                price: "$10/month (Basic)",
+                rating: 4.7,
+                reviews: 850,
+                icon: "https://upload.wikimedia.org/wikipedia/commons/3/30/MidJourney_Emblem.png",
+                website: "https://www.midjourney.com/",
+                features: ["Text-to-image generation", "Artistic styles", "High-resolution outputs", "Discord integration", "Community gallery"],
+                bestFor: "Artists, designers, and creatives who want to generate unique images from text prompts using AI."
+            },
+            {
+                id: 14,
+                name: "Obsidian",
+                description: "Powerful knowledge base that works on top of a local folder of plain text Markdown files.",
+                category: ["productivity"],
+                tags: ["free", "paid"],
+                freePlan: true,
+                price: "$8/month (Catalyst)",
+                rating: 4.8,
+                reviews: 950,
+                icon: "https://obsidian.md/images/logo.svg",
+                website: "https://obsidian.md/",
+                features: ["Local Markdown files", "Graph view", "Backlinks", "Plugins", "Cross-platform"],
+                bestFor: "Knowledge workers, researchers, and note-takers who want a powerful, local-first note-taking system."
+            },
+            {
+                id: 15,
+                name: "CapCut",
+                description: "All-in-one video editing app with professional-grade features for creators of all levels.",
+                category: ["video"],
+                tags: ["free"],
+                freePlan: true,
+                price: "Free",
+                rating: 4.6,
+                reviews: 1750,
+                icon: "https://play-lh.googleusercontent.com/9ZzXhqE1QpUNzUQ7H2Z0M7VQx8mJx0k2uXq9J2m2Q1S2W2x2y2t2v2u2t2s",
+                website: "https://www.capcut.com/",
+                features: ["Multi-layer editing", "Keyframe animation", "Auto captions", "Templates", "Effects & filters"],
+                bestFor: "Video creators who want a free, powerful mobile and desktop video editor with professional features."
+            },
+            {
+                id: 16,
+                name: "Webflow",
+                description: "Visual web development platform for building responsive websites without writing code.",
+                category: ["design", "development"],
+                tags: ["free", "paid"],
+                freePlan: true,
+                price: "$16/month (Basic)",
+                rating: 4.5,
+                reviews: 1100,
+                icon: "https://assets-global.website-files.com/6257adef93867e50d84d30e2/62580d0b9d7f855d88d5f299_webflow-icon-mark.svg",
+                website: "https://webflow.com/",
+                features: ["Visual designer", "CMS", "Hosting", "Animations", "Responsive design"],
+                bestFor: "Designers and businesses who want to build professional websites without coding."
+            },
+            {
+                id: 17,
+                name: "Loom",
+                description: "Video messaging tool that helps you get your message across through instantly shareable videos.",
+                category: ["productivity", "video"],
+                tags: ["free", "paid"],
+                freePlan: true,
+                price: "$8/month (Business)",
+                rating: 4.7,
+                reviews: 1350,
+                icon: "https://cdn.loom.com/images/logo-delight--light.svg",
+                website: "https://www.loom.com/",
+                features: ["Instant recording", "Screen + cam", "Video editing", "Sharing", "Viewer insights"],
+                bestFor: "Remote teams and individuals who need to quickly create and share video messages."
+            },
+            {
+                id: 18,
+                name: "GitHub",
+                description: "Platform for software development and version control using Git, with collaboration features.",
+                category: ["development"],
+                tags: ["free", "paid"],
+                freePlan: true,
+                price: "$4/month (Pro)",
+                rating: 4.9,
+                reviews: 4800,
+                icon: "https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png",
+                website: "https://github.com/",
+                features: ["Git repositories", "Pull requests", "Code review", "CI/CD", "Project management"],
+                bestFor: "Developers and teams who need version control, code hosting, and collaboration features."
+            }
+        ];
+
+        // DOM elements
+        const toolsGrid = document.getElementById('tools-grid');
+        const searchInput = document.getElementById('search-input');
+        const categoryButtons = document.querySelectorAll('[data-category]');
+        const filterFreeBtn = document.getElementById('filter-free');
+        const filterPaidBtn = document.getElementById('filter-paid');
+        const sortPopularBtn = document.getElementById('sort-popular');
+        const loadingIndicator = document.getElementById('loading');
+        const emptyState = document.getElementById('empty-state');
+        const toolModal = document.getElementById('tool-modal');
+        const closeModalBtn = document.getElementById('close-modal');
+
+        // State
+        let currentCategory = 'all';
+        let currentPriceFilter = 'all';
+        let currentSort = 'default';
+        let currentSearchTerm = '';
+
+        // Initialize
+        function init() {
+            renderTools();
+            setupEventListeners();
+        }
+
+        // Render tools based on current filters
+        function renderTools() {
+            // Show loading state
+            loadingIndicator.classList.remove('hidden');
+            toolsGrid.innerHTML = '';
+            emptyState.classList.add('hidden');
+
+            // Simulate loading delay
+            setTimeout(() => {
+                const filteredTools = filterTools();
+                const sortedTools = sortTools(filteredTools);
+
+                if (sortedTools.length === 0) {
+                    loadingIndicator.classList.add('hidden');
+                    emptyState.classList.remove('hidden');
+                    return;
+                }
+
+                sortedTools.forEach((tool, index) => {
+                    const toolCard = createToolCard(tool, index);
+                    toolsGrid.appendChild(toolCard);
+                });
+
+                loadingIndicator.classList.add('hidden');
+            }, 500);
+        }
+
+        // Filter tools based on current state
+        function filterTools() {
+            return tools.filter(tool => {
+                // Category filter
+                if (currentCategory !== 'all' && !tool.category.includes(currentCategory)) {
+                    return false;
+                }
+
+                // Price filter
+                if (currentPriceFilter === 'free' && !tool.freePlan) {
+                    return false;
+                }
+                if (currentPriceFilter === 'paid' && tool.freePlan) {
+                    return false;
+                }
+
+                // Search filter
+                if (currentSearchTerm) {
+                    const searchLower = currentSearchTerm.toLowerCase();
+                    return (
+                        tool.name.toLowerCase().includes(searchLower) ||
+                        tool.description.toLowerCase().includes(searchLower) ||
+                        tool.category.some(cat => cat.includes(searchLower)) ||
+                        tool.features.some(feature => feature.toLowerCase().includes(searchLower)) ||
+                        tool.bestFor.toLowerCase().includes(searchLower)
+                    );
+                }
+
+                return true;
+            });
+        }
+
+        // Sort tools
+        function sortTools(toolsToSort) {
+            if (currentSort === 'popular') {
+                return [...toolsToSort].sort((a, b) => b.reviews - a.reviews);
+            }
+            return toolsToSort;
+        }
+
+        // Create tool card element
+        function createToolCard(tool, index) {
+            const card = document.createElement('div');
+            card.className = `glass-card p-6 hover-glow transition-all duration-300 fade-in ${getDelayClass(index)}`;
+            card.dataset.id = tool.id;
+
+            // Determine price display
+            let priceDisplay = tool.freePlan ?
+                (tool.price === "Free" ? "Free" : `Free plan • ${tool.price}`) :
+                tool.price;
+
+            // Create tags
+            const tagsHTML = tool.tags.map(tag =>
+                `<span class="tag ${tag === 'free' ? 'tag-free' : 'tag-paid'}">${tag}</span>`
+            ).join('');
+
+            card.innerHTML = `
+                <div class="flex justify-between items-start mb-4">
+                    <div class="flex items-center space-x-3">
+                        <img src="${tool.icon}" alt="${tool.name} icon" class="h-10 w-10 rounded">
+                        <div>
+                            <h3 class="text-lg font-semibold text-gray-900">${tool.name}</h3>
+                            <div class="flex space-x-2 mt-1">
+                                ${tagsHTML}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-right">
+                        <div class="text-sm font-medium text-gray-900">${priceDisplay}</div>
+                        <div class="flex items-center justify-end space-x-1 mt-1">
+                            <i class="fas fa-star text-yellow-400 text-xs"></i>
+                            <span class="text-xs font-medium">${tool.rating}</span>
+                            <span class="text-xs text-gray-500">(${tool.reviews})</span>
+                        </div>
+                    </div>
+                </div>
+                <p class="text-gray-600 mb-4 line-clamp-3">${tool.description}</p>
+                <div class="flex flex-wrap gap-1 mb-4">
+                    ${tool.category.map(cat =>
+                        `<span class="px-2 py-1 rounded-full text-xs font-medium bg-purple-50 text-purple-800">${formatCategory(cat)}</span>`
+                    ).join('')}
+                </div>
+                <div class="flex justify-between items-center">
+                    <button class="view-details-btn text-purple-600 hover:text-purple-800 text-sm font-medium flex items-center space-x-1">
+                        <i class="fas fa-info-circle"></i>
+                        <span>Details</span>
+                    </button>
+                    <a href="${tool.website}" target="_blank" rel="noopener noreferrer"
+                       class="px-3 py-1.5 rounded-md bg-purple-600 text-white text-sm font-medium hover:bg-purple-700 transition-colors">
+                        Visit
+                    </a>
+                </div>
+            `;
+
+            // Add click event for details button
+            const detailsBtn = card.querySelector('.view-details-btn');
+            detailsBtn.addEventListener('click', () => showToolModal(tool));
+
+            return card;
+        }
+
+        // Format category for display
+        function formatCategory(category) {
+            return category.charAt(0).toUpperCase() + category.slice(1);
+        }
+
+        // Get animation delay class based on index
+        function getDelayClass(index) {
+            if (index < 3) return 'delay-100';
+            if (index < 6) return 'delay-200';
+            if (index < 9) return 'delay-300';
+            return '';
+        }
+
+        // Show tool modal
+        function showToolModal(tool) {
+            // Set modal content
+            document.getElementById('modal-title').textContent = tool.name;
+            document.getElementById('modal-icon').src = tool.icon;
+            document.getElementById('modal-description').textContent = tool.description;
+
+            // Set tags
+            const tagsContainer = document.getElementById('modal-tags');
+            tagsContainer.innerHTML = tool.tags.map(tag =>
+                `<span class="tag ${tag === 'free' ? 'tag-free' : 'tag-paid'}">${tag}</span>`
+            ).join('');
+
+            // Set details
+            const detailsContainer = document.getElementById('modal-details');
+            detailsContainer.innerHTML = `
+                <div>
+                    <div class="text-sm font-medium text-gray-500">Best for</div>
+                    <div class="mt-1 text-gray-900">${tool.bestFor}</div>
+                </div>
+                <div>
+                    <div class="text-sm font-medium text-gray-500">Pricing</div>
+                    <div class="mt-1 text-gray-900">
+                        ${tool.freePlan ?
+                            (tool.price === "Free" ? "Free" : `Free plan available • ${tool.price}`) :
+                            tool.price}
+                    </div>
+                </div>
+                <div class="sm:col-span-2">
+                    <div class="text-sm font-medium text-gray-500">Key Features</div>
+                    <div class="mt-1 text-gray-900">
+                        <ul class="list-disc pl-5 space-y-1">
+                            ${tool.features.map(feature => `<li>${feature}</li>`).join('')}
+                        </ul>
+                    </div>
+                </div>
+                <div class="sm:col-span-2">
+                    <div class="text-sm font-medium text-gray-500">Categories</div>
+                    <div class="mt-1 flex flex-wrap gap-2">
+                        ${tool.category.map(cat =>
+                            `<span class="px-3 py-1 rounded-full text-xs font-medium bg-purple-50 text-purple-800">${formatCategory(cat)}</span>`
+                        ).join('')}
+                    </div>
+                </div>
+            `;
+
+            // Set visit button link
+            const visitBtn = toolModal.querySelector('.bg-purple-600');
+            visitBtn.onclick = () => window.open(tool.website, '_blank');
+
+            // Show modal
+            toolModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close tool modal
+        function closeToolModal() {
+            toolModal.classList.add('hidden');
+            document.body.style.overflow = '';
+        }
+
+        // Setup event listeners
+        function setupEventListeners() {
+            // Search input
+            searchInput.addEventListener('input', (e) => {
+                currentSearchTerm = e.target.value.trim();
+                renderTools();
+            });
+
+            // Category buttons
+            categoryButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Update active state
+                    categoryButtons.forEach(btn => btn.classList.remove('bg-purple-100', 'text-purple-800'));
+                    button.classList.add('bg-purple-100', 'text-purple-800');
+
+                    currentCategory = button.dataset.category;
+                    renderTools();
+                });
+            });
+
+            // Price filters
+            filterFreeBtn.addEventListener('click', () => {
+                currentPriceFilter = 'free';
+                renderTools();
+            });
+
+            filterPaidBtn.addEventListener('click', () => {
+                currentPriceFilter = 'paid';
+                renderTools();
+            });
+
+            // Sort by popular
+            sortPopularBtn.addEventListener('click', () => {
+                currentSort = currentSort === 'popular' ? 'default' : 'popular';
+                renderTools();
+            });
+
+            // Close modal
+            closeModalBtn.addEventListener('click', closeToolModal);
+            toolModal.addEventListener('click', (e) => {
+                if (e.target === toolModal) {
+                    closeToolModal();
+                }
+            });
+
+            // Close modal with Escape key
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape' && !toolModal.classList.contains('hidden')) {
+                    closeToolModal();
+                }
+            });
+
+            // Theme toggle
+            document.getElementById('theme-toggle').addEventListener('click', () => {
+                document.body.classList.toggle('dark');
+            });
+        }
+
+        // Initialize the app
+        init();
+    </script>
+  <h3>Disclaimer</h3>
+  <p>
+    This website is an independent informational and comparison platform. We do not own,
+    operate, control, or have any formal affiliation with any third-party websites, services,
+    companies, or brands referenced or linked on this site, unless explicitly stated otherwise.
+  </p>
+  <p>
+    All trademarks, logos, brand names, and services mentioned belong to their respective
+    owners and are used solely for identification and informational purposes. Any descriptions,
+    opinions, or evaluations provided are our own and are based on publicly available information
+    and/or independent analysis.
+  </p>
+  <p>
+    Links to third-party websites are provided for convenience only. We do not endorse,
+    guarantee, or assume responsibility for the content, accuracy, availability, pricing,
+    or practices of any external websites or services.
+  </p>
+  <p>
+    Use of any third-party website or service is at the user’s own discretion and risk.
+    Users are encouraged to review the terms, policies, and conditions of any third-party
+    services before engaging with them.
+  </p>
+</section>
+</html>
+this website was made by joshua, wapa you are wrong
+</body>
+</html>
